@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="title">
+    Welcome to
+    <div class="logo">IMDB</div>
+  </div>
+  <div class="list-title">Latest movies</div>
+  <div
+    class="films-list"
+    infiniteScroll
+    [infiniteScrollDistance]="1"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()"
+    #filmsList
+  >
+    <app-movie-item
+      *ngFor="let film of latestFilms$ | async"
+      [film]="film"
+    ></app-movie-item>
+  </div>
+</div>

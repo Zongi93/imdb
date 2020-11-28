@@ -1,27 +1,13 @@
-# Imdb
+# My IMDB clone
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.0.
+This is an example project written in Angular, the purpose of it is to showcase my understanding of the framework and other used tools.
 
-## Development server
+## About the project
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This is an IMDB clone with very limited/basic functionality. Currently we support the following features:
 
-## Code scaffolding
+- Ability to view the latest films in a list.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## How to run
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Run `npm install` to install dependencies. Then run `npm run start` and navigate to `http://localhost:4200/`. You will need to provide your own API read access token in `src/app/shared/interceptors/authorization.interceptor.ts:10`. [Click here to read how you can get an API read access token.](https://developers.themoviedb.org/3/getting-started/authentication)

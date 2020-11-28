@@ -1,0 +1,53 @@
+.container {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+
+  .title {
+    padding: 3rem 0 3rem;
+    font-size: 3rem;
+    color: white;
+
+    display: flex;
+    justify-content: center;
+
+    .logo {
+      background-color: #f5c518;
+      padding: 0 1rem;
+      margin-left: 1rem;
+      font-family: cursive;
+      font-weight: 900;
+      color: black;
+      border-radius: 5px;
+    }
+  }
+  .list-title {
+    flex-basis: 100%;
+
+    padding-left: 5rem;
+  }
+
+  .films-list {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    padding: 0 auto;
+    flex-flow: wrap;
+    justify-content: center;
+    padding-top: 4rem;
+
+    & > :first-child {
+      position: relative;
+
+      &::before {
+        position: absolute;
+        top: -4rem;
+        left: 0;
+        content: "Latest movies";
+        color: #f5c518;
+        font-weight: 900;
+        font-size: 3rem;
+      }
+    }
+  }
+}
