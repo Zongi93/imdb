@@ -11,8 +11,32 @@
     (scrolled)="onScroll()"
     #filmsList
   >
-    <div class="list-order" (click)="flipOrder()">
-      {{ sortOrder === "asc" ? "Ascending" : "Descending" }} order by date
+    <div class="sort-options">
+      <div
+        class="watchlisted"
+        (click)="updateOrder('watchlisted')"
+        [class.active]="sortOrder === 'watchlisted'"
+      >
+        Sort by watchlisted
+      </div>
+      <div class="date">
+        Sort by date
+        <div
+          class="ascending"
+          (click)="updateOrder('asc')"
+          [class.active]="sortOrder === 'asc'"
+        >
+          ascending
+        </div>
+        or
+        <div
+          class="descending"
+          (click)="updateOrder('desc')"
+          [class.active]="sortOrder === 'desc'"
+        >
+          descending
+        </div>
+      </div>
     </div>
     <app-movie-item
       *ngFor="let film of latestFilms$ | async"

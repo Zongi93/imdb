@@ -23,6 +23,17 @@
   <div class="title" title="Film title">
     {{ film.title }}
   </div>
+  <div
+    class="watchlist-button"
+    (click)="updateWatchlist()"
+    [class.watchlisted]="isWatchlisted$ | async"
+  >
+    {{
+      (isWatchlisted$ | async)
+        ? "- Remove from watchlist"
+        : "+ Add to watchlist"
+    }}
+  </div>
   <div class="date" title="Film date">
     {{ film.releaseDate.toLocaleDateString() }}
   </div>

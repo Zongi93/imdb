@@ -1,8 +1,12 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { delay, map, takeWhile } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { delay, map, switchMap, takeWhile } from 'rxjs/operators';
 import { Film } from '../shared/models/film';
+import { PersistanceService } from '../shared/services/persistance.service';
 import { MoviesListService } from './movies-list.service';
+
+const ORDERS = ['asc', 'desc', 'watchlisted', 'off'] as const;
+type Orders = typeof ORDERS[number];
 
 @Component({
   selector: 'app-movies-list',
@@ -12,22 +16,35 @@ import { MoviesListService } from './movies-list.service';
 export class MoviesListComponent implements AfterViewInit {
   @ViewChild('filmsList') filmsList: ElementRef;
 
-  private readonly sortOrderEmitter = new BehaviorSubject<'asc' | 'desc'>(
-    'desc'
-  );
+  private readonly sortOrderEmitter = new BehaviorSubject<Orders>('off');
+  private readonly SORT_ORDER_KEY = 'movies-list--sort-by';
 
-  get sortOrder(): string {
+  get sortOrder(): Orders {
     return this.sortOrderEmitter.value;
   }
 
   readonly latestFilms$ = combineLatest([
-    this.sortOrderEmitter.pipe(map((order) => (order === 'desc' ? 1 : -1))),
+    this.sortOrderEmitter,
     this.service.latestFilms$,
-  ]).pipe(
-    map(([order, arr]) => arr.sort((a, b) => Film.compareByDate(a, b) * order))
-  );
+  ]).pipe(switchMap(([order, arr]) => this.sortLatestFilmsByOrder(arr, order)));
 
-  constructor(private readonly service: MoviesListService) {}
+  constructor(
+    private readonly service: MoviesListService,
+    private readonly persistanceService: PersistanceService
+  ) {
+    const persistedOrder = persistanceService.get<Orders>(
+      this.SORT_ORDER_KEY,
+      'off'
+    );
+
+    if (ORDERS.includes(persistedOrder)) {
+      this.sortOrderEmitter.next(persistedOrder);
+    }
+
+    this.sortOrderEmitter.subscribe((order) =>
+      persistanceService.set(this.SORT_ORDER_KEY, order)
+    );
+  }
 
   ngAfterViewInit(): void {
     const filmListDiv = this.filmsList.nativeElement as HTMLDivElement;
@@ -43,12 +60,38 @@ export class MoviesListComponent implements AfterViewInit {
       );
   }
 
-  flipOrder(): void {
-    const nextOrder = this.sortOrderEmitter.value === 'desc' ? 'asc' : 'desc';
-    this.sortOrderEmitter.next(nextOrder);
+  updateOrder(sortBy: Orders): void {
+    const prevValue = this.sortOrderEmitter.value;
+    const nextValue = prevValue === sortBy ? 'off' : sortBy;
+    this.sortOrderEmitter.next(nextValue);
   }
 
   onScroll(): void {
     this.service.requestNextPage();
+  }
+
+  private sortLatestFilmsByOrder(
+    films: Array<Film>,
+    order: Orders
+  ): Observable<Array<Film>> {
+    switch (order) {
+      case 'asc':
+        return of(films.sort((a, b) => Film.compareByDate(a, b) * -1)); // we could also swap to (b,a)
+      case 'desc':
+        return of(films.sort(Film.compareByDate));
+      case 'watchlisted':
+        return this.service.watchListArray$.pipe(
+          map((watchlistArray) =>
+            films.sort((a, b) => {
+              const isA = watchlistArray.includes(a.id) ? -1 : 1;
+              const isB = watchlistArray.includes(b.id) ? -1 : 1;
+              return isA - isB;
+            })
+          )
+        );
+      case 'off':
+      default:
+        return of(films);
+    }
   }
 }

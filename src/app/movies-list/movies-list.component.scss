@@ -32,14 +32,38 @@
     justify-content: center;
     padding-top: 4rem;
 
-    .list-order {
+    .sort-options {
       position: absolute;
-      top: 1rem;
+      top: 1.6rem;
       right: 2rem;
       color: #5f5f5f;
       font-size: 1.6rem;
 
-      &:hover {
+      display: flex;
+      flex-direction: row;
+
+      > div:not(:last-child) {
+        margin-right: 3rem;
+      }
+
+      .date {
+        display: flex;
+        flex-direction: row;
+
+        .ascending,
+        .descending {
+          margin-left: 0.5rem;
+        }
+
+        .ascending {
+          margin-right: 0.5rem;
+        }
+      }
+
+      & .watchlisted:hover,
+      & .ascending:hover,
+      & .descending:hover,
+      .active {
         cursor: pointer;
         color: #f5c518;
       }
