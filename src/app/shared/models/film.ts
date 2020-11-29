@@ -29,10 +29,6 @@ export class Film {
   }
 
   static compareByDate(a: Film, b: Film): number {
-    return a.releaseDate > b.releaseDate
-      ? -1
-      : a.releaseDate === b.releaseDate
-      ? 0
-      : 1;
+    return a.releaseDate > b.releaseDate ? -1 : a.releaseDate === b.releaseDate ? 0 : 1;
   }
 }

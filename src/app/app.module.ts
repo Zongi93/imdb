@@ -10,12 +10,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [AppComponent, MoviesListComponent, MovieItemComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    SharedModule,
-    InfiniteScrollModule,
-  ],
+  imports: [BrowserModule, AppRoutingModule, SharedModule, InfiniteScrollModule],
   providers: [],
   bootstrap: [AppComponent],
 })

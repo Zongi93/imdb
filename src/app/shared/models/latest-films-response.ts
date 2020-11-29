@@ -7,17 +7,9 @@ export type LatestFilmsResponseDto = {
 };
 
 export class LatestFilmsResponse {
-  private constructor(
-    readonly page: number,
-    readonly totalPages: number,
-    readonly results: Array<Film>
-  ) {}
+  private constructor(readonly page: number, readonly totalPages: number, readonly results: Array<Film>) {}
 
   static fromDto(dto: LatestFilmsResponseDto): LatestFilmsResponse {
-    return new LatestFilmsResponse(
-      dto.page,
-      dto.total_pages,
-      dto.results.map(Film.fromDto)
-    );
+    return new LatestFilmsResponse(dto.page, dto.total_pages, dto.results.map(Film.fromDto));
   }
 }

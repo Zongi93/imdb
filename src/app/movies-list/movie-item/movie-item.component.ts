@@ -16,10 +16,7 @@ export class MovieItemComponent implements OnInit {
 
   isWatchlisted$: Observable<boolean>;
 
-  constructor(
-    private readonly imageLoader: ImageLoaderService,
-    private readonly service: MoviesListService
-  ) {}
+  constructor(private readonly imageLoader: ImageLoaderService, private readonly service: MoviesListService) {}
 
   ngOnInit(): void {
     this.posterUrl$ = this.imageLoader.getImageUrl$(this.film.posterPath);

@@ -12,35 +12,16 @@
     #filmsList
   >
     <div class="sort-options">
-      <div
-        class="watchlisted"
-        (click)="updateOrder('watchlisted')"
-        [class.active]="sortOrder === 'watchlisted'"
-      >
+      <div class="watchlisted" (click)="updateOrder('watchlisted')" [class.active]="sortOrder === 'watchlisted'">
         Sort by watchlisted
       </div>
       <div class="date">
         Sort by date
-        <div
-          class="ascending"
-          (click)="updateOrder('asc')"
-          [class.active]="sortOrder === 'asc'"
-        >
-          ascending
-        </div>
+        <div class="ascending" (click)="updateOrder('asc')" [class.active]="sortOrder === 'asc'">ascending</div>
         or
-        <div
-          class="descending"
-          (click)="updateOrder('desc')"
-          [class.active]="sortOrder === 'desc'"
-        >
-          descending
-        </div>
+        <div class="descending" (click)="updateOrder('desc')" [class.active]="sortOrder === 'desc'">descending</div>
       </div>
     </div>
-    <app-movie-item
-      *ngFor="let film of latestFilms$ | async"
-      [film]="film"
-    ></app-movie-item>
+    <app-movie-item *ngFor="let film of latestFilms$ | async" [film]="film"></app-movie-item>
   </div>
 </div>

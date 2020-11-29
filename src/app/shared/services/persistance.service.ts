@@ -14,10 +14,7 @@ export class PersistanceService {
         const dto = JSON.parse(dtoStringified);
         return ctor(dto);
       } catch (e) {
-        console.warn(
-          'An error has occured when trying to read data from local storage',
-          e
-        );
+        console.warn('An error has occured when trying to read data from local storage', e);
         localStorage.removeItem(key);
         return returnOnError;
       }

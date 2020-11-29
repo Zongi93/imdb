@@ -23,41 +23,29 @@ export class MoviesListComponent implements AfterViewInit {
     return this.sortOrderEmitter.value;
   }
 
-  readonly latestFilms$ = combineLatest([
-    this.sortOrderEmitter,
-    this.service.latestFilms$,
-  ]).pipe(switchMap(([order, arr]) => this.sortLatestFilmsByOrder(arr, order)));
+  readonly latestFilms$ = combineLatest([this.sortOrderEmitter, this.service.latestFilms$]).pipe(
+    switchMap(([order, arr]) => this.sortLatestFilmsByOrder(arr, order))
+  );
 
-  constructor(
-    private readonly service: MoviesListService,
-    private readonly persistanceService: PersistanceService
-  ) {
-    const persistedOrder = persistanceService.get<Orders>(
-      this.SORT_ORDER_KEY,
-      'off'
-    );
+  constructor(private readonly service: MoviesListService, private readonly persistanceService: PersistanceService) {
+    const persistedOrder = persistanceService.get<Orders>(this.SORT_ORDER_KEY, 'off');
 
     if (ORDERS.includes(persistedOrder)) {
       this.sortOrderEmitter.next(persistedOrder);
     }
 
-    this.sortOrderEmitter.subscribe((order) =>
-      persistanceService.set(this.SORT_ORDER_KEY, order)
-    );
+    this.sortOrderEmitter.subscribe((order) => persistanceService.set(this.SORT_ORDER_KEY, order));
   }
 
   ngAfterViewInit(): void {
     const filmListDiv = this.filmsList.nativeElement as HTMLDivElement;
-    const isScrollBarNotPresent = () =>
-      filmListDiv.scrollHeight < window.innerHeight;
+    const isScrollBarNotPresent = () => filmListDiv.scrollHeight < window.innerHeight;
 
-    this.latestFilms$
-      .pipe(delay(50), takeWhile(isScrollBarNotPresent))
-      .subscribe(
-        () => this.service.requestNextPage(),
-        () => undefined,
-        () => this.service.requestNextPage()
-      );
+    this.latestFilms$.pipe(delay(50), takeWhile(isScrollBarNotPresent)).subscribe(
+      () => this.service.requestNextPage(),
+      () => undefined,
+      () => this.service.requestNextPage()
+    );
   }
 
   updateOrder(sortBy: Orders): void {
@@ -70,10 +58,7 @@ export class MoviesListComponent implements AfterViewInit {
     this.service.requestNextPage();
   }
 
-  private sortLatestFilmsByOrder(
-    films: Array<Film>,
-    order: Orders
-  ): Observable<Array<Film>> {
+  private sortLatestFilmsByOrder(films: Array<Film>, order: Orders): Observable<Array<Film>> {
     switch (order) {
       case 'asc':
         return of(films.sort((a, b) => Film.compareByDate(a, b) * -1)); // we could also swap to (b,a)

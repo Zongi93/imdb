@@ -8,20 +8,14 @@ import { RestControllerService } from './rest-controller.service';
   providedIn: 'root',
 })
 export class ImageLoaderService {
-  private readonly configurationEmitter = new BehaviorSubject<ImageConfiguration>(
-    undefined
-  );
+  private readonly configurationEmitter = new BehaviorSubject<ImageConfiguration>(undefined);
 
-  private readonly configuration$ = this.configurationEmitter.pipe(
-    filter((config) => !!config)
-  );
+  private readonly configuration$ = this.configurationEmitter.pipe(filter((config) => !!config));
 
   constructor(private readonly restService: RestControllerService) {
     this.restService
       .getConfiguration()
-      .subscribe((config) =>
-        this.configurationEmitter.next(config.imageConfiguration)
-      );
+      .subscribe((config) => this.configurationEmitter.next(config.imageConfiguration));
   }
 
   getImageUrl$(posterPath: string): Observable<string> {
