@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, scan, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, scan, switchMap } from 'rxjs/operators';
 import { RestControllerService } from '../shared';
 import { Film } from '../shared/models/film';
 
@@ -18,7 +18,7 @@ export class MoviesListService {
     scan((prev, curr: void) => prev + 1, 0),
     switchMap((nextPage) => this.restController.getLatestFilms(nextPage)),
     map((res) => res.results),
-    scan((prev, current) => [...prev, ...current], [])
+    scan((prev, current) => [...prev, ...current], [] as Array<Film>) // There are more efficient solutions
   );
 
   constructor(private readonly restController: RestControllerService) {}

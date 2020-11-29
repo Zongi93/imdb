@@ -3,15 +3,17 @@
     Welcome to
     <div class="logo">IMDB</div>
   </div>
-  <div class="list-title">Latest movies</div>
   <div
     class="films-list"
     infiniteScroll
     [infiniteScrollDistance]="1"
-    [infiniteScrollThrottle]="50"
+    [infiniteScrollThrottle]="250"
     (scrolled)="onScroll()"
     #filmsList
   >
+    <div class="list-order" (click)="flipOrder()">
+      {{ sortOrder === "asc" ? "Ascending" : "Descending" }} order by date
+    </div>
     <app-movie-item
       *ngFor="let film of latestFilms$ | async"
       [film]="film"

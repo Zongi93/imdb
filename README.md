@@ -7,6 +7,7 @@ This is an example project written in Angular, the purpose of it is to showcase 
 This is an IMDB clone with very limited/basic functionality. Currently we support the following features:
 
 - Ability to view the latest films in a list.
+- Ability to sort films by release date.
 
 ## How to run
 

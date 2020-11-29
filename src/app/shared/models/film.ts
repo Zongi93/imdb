@@ -27,4 +27,12 @@ export class Film {
       dto.poster_path
     );
   }
+
+  static compareByDate(a: Film, b: Film): number {
+    return a.releaseDate > b.releaseDate
+      ? -1
+      : a.releaseDate === b.releaseDate
+      ? 0
+      : 1;
+  }
 }

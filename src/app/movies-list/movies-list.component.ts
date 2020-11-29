@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
-import { delay, takeWhile } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { delay, map, takeWhile } from 'rxjs/operators';
 import { Film } from '../shared/models/film';
 import { MoviesListService } from './movies-list.service';
 
@@ -11,7 +11,21 @@ import { MoviesListService } from './movies-list.service';
 })
 export class MoviesListComponent implements AfterViewInit {
   @ViewChild('filmsList') filmsList: ElementRef;
-  readonly latestFilms$: Observable<Array<Film>> = this.service.latestFilms$;
+
+  private readonly sortOrderEmitter = new BehaviorSubject<'asc' | 'desc'>(
+    'desc'
+  );
+
+  get sortOrder(): string {
+    return this.sortOrderEmitter.value;
+  }
+
+  readonly latestFilms$ = combineLatest([
+    this.sortOrderEmitter.pipe(map((order) => (order === 'desc' ? 1 : -1))),
+    this.service.latestFilms$,
+  ]).pipe(
+    map(([order, arr]) => arr.sort((a, b) => Film.compareByDate(a, b) * order))
+  );
 
   constructor(private readonly service: MoviesListService) {}
 
@@ -29,7 +43,12 @@ export class MoviesListComponent implements AfterViewInit {
       );
   }
 
-  onScroll() {
+  flipOrder(): void {
+    const nextOrder = this.sortOrderEmitter.value === 'desc' ? 'asc' : 'desc';
+    this.sortOrderEmitter.next(nextOrder);
+  }
+
+  onScroll(): void {
     this.service.requestNextPage();
   }
 }

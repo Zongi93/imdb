@@ -9,8 +9,11 @@
   border-radius: 3px;
   border: 1px solid #1f1f1f;
 
+  display: flex;
+  flex-direction: column;
+
   .score {
-    padding: 0.7rem 1rem;
+    padding: 1rem;
     color: rgb(200, 200, 200);
     display: flex;
     align-items: center;
@@ -24,9 +27,38 @@
         color: rgb(245, 197, 24);
       }
     }
+
+    &.not-rated {
+      svg path {
+        color: rgb(100, 100, 100);
+      }
+
+      span {
+        color: transparent;
+        position: relative;
+        width: 100%;
+
+        &::after {
+          top: 0;
+          left: 0;
+          width: 100%;
+          position: absolute;
+          font-style: italic;
+          content: "Film not yet rated";
+          color: rgb(200, 200, 200);
+        }
+      }
+    }
   }
 
   .title {
+    padding: 0.7rem 1rem;
+    letter-spacing: 0.15rem;
+  }
+
+  .date {
+    margin-top: auto;
+    color: #5f5f5f;
     padding: 0.7rem 1rem 1.5rem;
     letter-spacing: 0.15rem;
   }
