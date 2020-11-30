@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ActorDetail } from '../shared/models/actor-detail';
 import { ImageLoaderService } from '../shared/services/image-loader.service';
 import { MovieDetailsService } from './movie-details.service';
 
@@ -12,6 +11,8 @@ import { MovieDetailsService } from './movie-details.service';
 export class MovieDetailsComponent {
   readonly movieDetails$ = this.service.movieDetails$;
   readonly reviews$ = this.service.reviews$;
+
+  castedRating = 5;
 
   constructor(private readonly service: MovieDetailsService, private readonly imageService: ImageLoaderService) {}
 
@@ -30,5 +31,9 @@ export class MovieDetailsComponent {
 
   onScroll(): void {
     this.service.requestNextReviewsPage();
+  }
+
+  castVote(vote: number): void {
+    this.service.castVote(vote);
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, scan, switchMap, tap } from 'rxjs/operators';
+import { filter, scan, switchMap } from 'rxjs/operators';
 import { RestControllerService } from '../shared';
 import { FilmReview } from '../shared/models/film-review';
 
@@ -38,5 +38,16 @@ export class MovieDetailsService implements CanActivate {
 
   requestNextReviewsPage(): void {
     this.requestNextReviewsPageEmitter.next(undefined);
+  }
+
+  castVote(vote: number): void {
+    const id = this.movieIdEmitter.value;
+    this.restController.postVoteOnMovie(id, vote).subscribe(
+      () => alert('Vote successful!'),
+      (error) => {
+        alert('Voting was unsuccessful.');
+        console.log({ e: error });
+      }
+    );
   }
 }

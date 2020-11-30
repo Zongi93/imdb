@@ -14,11 +14,19 @@
       <div>{{ movieDetails.runtime }} minutes</div>
       <h4>Vote average</h4>
       <div>{{ movieDetails.voteAverage }} out of 10 ({{ movieDetails.voteCount }} votes casted)</div>
+      <div class="cast-vote">
+        <h4>Cast your own vote!</h4>
+        <div class="cast-vote-input">
+          1&#x2605;
+          <input type="range" min="1" max="10" [value]="castedRating" (change)="castedRating = $event.target.value" />
+          10&#x2605;
+          <div class="cast-vote-input-send" (click)="castVote(castedRating)">Cast vote: {{ castedRating }}&#x2605;</div>
+        </div>
+      </div>
       <div class="synopsys">
         <h2>Synopsys</h2>
         <div>{{ movieDetails.overview }}</div>
       </div>
-      <div class="status"></div>
     </div>
   </div>
   <h2>Cast:</h2>

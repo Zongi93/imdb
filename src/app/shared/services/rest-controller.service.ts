@@ -44,4 +44,8 @@ export class RestControllerService {
       .get<FilmReviewsResultDto>(this.tmdb(`/movie/${id}/reviews?page=${page}`))
       .pipe(map((dto) => dto.results.map(FilmReview.fromDto)));
   }
+
+  postVoteOnMovie(id: number, value: number): Observable<any> {
+    return this.http.post(this.tmdb(`/movie/${id}/rating`), { value });
+  }
 }

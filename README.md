@@ -11,6 +11,7 @@ This is an IMDB clone with very limited/basic functionality. Currently we suppor
 - Ability to view a film's details and its posted reviews.
 - Ability to create account and log in.
 - Ability to create watchlist per account.
+- Ability to post your own review score.
 
 ## How to run
 

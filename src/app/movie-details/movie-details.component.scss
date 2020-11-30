@@ -10,8 +10,7 @@
     background-color: #161414;
     border: 1px solid #1a1a1a;
     padding: 1rem;
-    max-width: 107rem;
-    min-width: 80rem;
+    width: 107rem;
 
     h2 {
       padding-top: 2rem;
@@ -30,7 +29,7 @@
       .film-details {
         display: grid;
         grid-template-columns: max-content 1fr minmax(40%, max-content);
-        grid-template-rows: repeat(6, max-content) max-content;
+        grid-template-rows: repeat(7, max-content) max-content;
         color: white;
         width: 100%;
         font-size: 1.6rem;
@@ -52,8 +51,40 @@
           margin-bottom: 1.5rem;
         }
 
-        .status {
+        .cast-vote {
+          margin-top: 3rem;
           grid-column: span 3;
+
+          h4 {
+            margin: auto 0;
+            margin-right: 2rem;
+            color: #f5c518;
+          }
+
+          &-input {
+            grid-column: 3 / span 1;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            color: #afafaf;
+
+            &-send {
+              background-color: #2f2f2f;
+              color: rgb(87, 153, 239);
+              font-size: 1.4rem;
+              font-weight: 600;
+              text-align: center;
+              border-radius: 5px;
+              margin: 1rem 3rem;
+              padding: 1rem;
+
+              &:hover {
+                background-color: #3f3f3f;
+                cursor: pointer;
+              }
+            }
+          }
         }
 
         .synopsys {
