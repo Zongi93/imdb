@@ -28,13 +28,13 @@ export class MoviesListComponent implements AfterViewInit {
   );
 
   constructor(private readonly service: MoviesListService, private readonly persistanceService: PersistanceService) {
-    const persistedOrder = persistanceService.get<Orders>(this.SORT_ORDER_KEY, 'off');
+    const persistedOrder = persistanceService.getFromLocalStorage<Orders>(this.SORT_ORDER_KEY, 'off');
 
     if (ORDERS.includes(persistedOrder)) {
       this.sortOrderEmitter.next(persistedOrder);
     }
 
-    this.sortOrderEmitter.subscribe((order) => persistanceService.set(this.SORT_ORDER_KEY, order));
+    this.sortOrderEmitter.subscribe((order) => persistanceService.setToLocalStorage(this.SORT_ORDER_KEY, order));
   }
 
   ngAfterViewInit(): void {

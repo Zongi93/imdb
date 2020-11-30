@@ -9,6 +9,8 @@ This is an IMDB clone with very limited/basic functionality. Currently we suppor
 - Ability to view the latest films in a list.
 - Ability to sort films by release date.
 - Ability to view a film's details and its posted reviews.
+- Ability to create account and log in.
+- Ability to create watchlist per account.
 
 ## How to run
 

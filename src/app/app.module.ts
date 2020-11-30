@@ -7,9 +7,10 @@ import { SharedModule } from './shared';
 import { MoviesListComponent, MovieItemComponent } from './movies-list';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MovieDetailsComponent } from './movie-details';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
-  declarations: [AppComponent, MoviesListComponent, MovieItemComponent, MovieDetailsComponent],
+  declarations: [AppComponent, MoviesListComponent, MovieItemComponent, MovieDetailsComponent, LoginComponent],
   imports: [BrowserModule, AppRoutingModule, SharedModule, InfiniteScrollModule],
   providers: [],
   bootstrap: [AppComponent],

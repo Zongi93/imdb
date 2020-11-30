@@ -3,5 +3,11 @@
     Welcome to
     <div class="logo">IMDB</div>
   </div>
+  <div class="user-info" *ngIf="!!username">
+    <div class="logout" (click)="logout()">Logout</div>
+    Hello
+    <div class="name">{{ username }}</div>
+    !
+  </div>
   <router-outlet></router-outlet>
 </div>

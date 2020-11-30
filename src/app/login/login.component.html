@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="log-in" *ngIf="!showRegisterView">
+    <h2>Log in</h2>
+    <h3>Username</h3>
+    <input type="text" #username />
+    <h3>Password</h3>
+    <input type="password" #password />
+    <div class="button" (click)="login(username.value, password.value)">Log in</div>
+
+    <h4 (click)="showRegisterView = true">Click here to register!</h4>
+  </div>
+  <div class="register" *ngIf="showRegisterView">
+    <h2>Register</h2>
+    <h3>Username</h3>
+    <input type="text" #username />
+    <h3>Password</h3>
+    <input type="password" #password />
+    <h3>Password again</h3>
+    <input type="password" #passwordAgain />
+    <h3>Email</h3>
+    <input type="email" #email />
+    <div class="button" (click)="register(username.value, password.value, passwordAgain.value, email.value)">
+      Register
+    </div>
+
+    <h4 (click)="showRegisterView = false">Click here to log in!</h4>
+  </div>
+</div>

@@ -9,20 +9,18 @@ import { MovieDetailsService } from './movie-details.service';
   templateUrl: './movie-details.component.html',
   styleUrls: ['./movie-details.component.scss'],
 })
-export class MovieDetailsComponent implements OnInit {
+export class MovieDetailsComponent {
   readonly movieDetails$ = this.service.movieDetails$;
   readonly reviews$ = this.service.reviews$;
 
   constructor(private readonly service: MovieDetailsService, private readonly imageService: ImageLoaderService) {}
-
-  ngOnInit(): void {}
 
   getImageUrl(imageUrl: string): Observable<string> {
     return this.imageService.getImageUrl$(imageUrl);
   }
 
   getReviewerImageUrl(imageUrl: string): Observable<string> {
-    if (imageUrl.includes('http')) {
+    if (imageUrl?.includes('http')) {
       const urlStart = imageUrl.indexOf('http');
       return of(imageUrl.substring(urlStart));
     } else {

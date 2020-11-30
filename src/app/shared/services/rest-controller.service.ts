@@ -1,11 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { LatestFilmsResponse, LatestFilmsResponseDto } from '../models/latest-films-response';
 import { map } from 'rxjs/operators';
-import { Configuration, ConfigurationDto } from '../models/configuration';
-import { FilmDetail } from '../models/film-detail';
-import { FilmReview, FilmReviewsResultDto } from '../models/film-review';
+import {
+  LatestFilmsResponse,
+  LatestFilmsResponseDto,
+  Configuration,
+  ConfigurationDto,
+  FilmDetail,
+  FilmReview,
+  FilmReviewsResultDto,
+} from '../models';
 
 @Injectable({
   providedIn: 'root',

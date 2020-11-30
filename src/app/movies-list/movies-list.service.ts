@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map, scan, switchMap } from 'rxjs/operators';
 import { RestControllerService } from '../shared';
 import { Film } from '../shared/models/film';
+import { AuthenticationService } from '../shared/services/authentication.service';
 import { PersistanceService } from '../shared/services/persistance.service';
 
 @Injectable({
@@ -27,12 +28,10 @@ export class MoviesListService {
   constructor(
     private readonly restController: RestControllerService,
     private readonly persistanceService: PersistanceService,
+    private readonly authService: AuthenticationService,
     private readonly router: Router
   ) {
-    const persistedWatchList = persistanceService.get<Array<number>>(this.WATCHLIST_KEY, []);
-    this.filmWatchlistedEmitter.next(persistedWatchList);
-
-    this.filmWatchlistedEmitter.subscribe((arr) => persistanceService.set(this.WATCHLIST_KEY, arr));
+    authService.login$.subscribe(() => this.startUp());
   }
 
   requestNextPage(): void {
@@ -56,5 +55,12 @@ export class MoviesListService {
 
   navigateToFilmDetailsPage(film: Film): void {
     this.router.navigate(['/details'], { queryParams: { id: film.id } });
+  }
+
+  private startUp(): void {
+    const persistedWatchList = this.persistanceService.getFromLocalStorage<Array<number>>(this.WATCHLIST_KEY, []);
+    this.filmWatchlistedEmitter.next(persistedWatchList);
+
+    this.filmWatchlistedEmitter.subscribe((arr) => this.persistanceService.setToLocalStorage(this.WATCHLIST_KEY, arr));
   }
 }
