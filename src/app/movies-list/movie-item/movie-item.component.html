@@ -1,5 +1,5 @@
 <div class="container">
-  <img [src]="posterUrl$ | async" alt="" width="200" height="300" />
+  <img [src]="posterUrl$ | async" alt="" width="200" height="300" (click)="onImageClicked()" />
   <div class="score" title="Vote average" [class.not-rated]="film.voteAverage === 0">
     <svg
       width="24"

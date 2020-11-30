@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { LatestFilmsResponse, LatestFilmsResponseDto } from '../models/latest-films-response';
 import { map } from 'rxjs/operators';
 import { Configuration, ConfigurationDto } from '../models/configuration';
+import { FilmDetail } from '../models/film-detail';
+import { FilmReview, FilmReviewsResultDto } from '../models/film-review';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +25,18 @@ export class RestControllerService {
 
   getConfiguration(): Observable<Configuration> {
     return this.http.get<ConfigurationDto>(this.tmdb('/configuration')).pipe(map(Configuration.fromDto));
+  }
+
+  getFilmDetails(id: number): Observable<FilmDetail> {
+    return combineLatest([
+      this.http.get(this.tmdb(`/movie/${id}`)),
+      this.http.get(this.tmdb(`/movie/${id}/credits`)),
+    ]).pipe(map(FilmDetail.fromDto));
+  }
+
+  getFilmReviews(id: number, page = 1): Observable<Array<FilmReview>> {
+    return this.http
+      .get<FilmReviewsResultDto>(this.tmdb(`/movie/${id}/reviews?page=${page}`))
+      .pipe(map((dto) => dto.results.map(FilmReview.fromDto)));
   }
 }

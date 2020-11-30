@@ -26,4 +26,8 @@ export class MovieItemComponent implements OnInit {
   updateWatchlist(): void {
     this.service.updateWatchlist(this.film);
   }
+
+  onImageClicked(): void {
+    this.service.navigateToFilmDetailsPage(this.film);
+  }
 }

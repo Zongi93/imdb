@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map, scan, switchMap } from 'rxjs/operators';
 import { RestControllerService } from '../shared';
@@ -25,7 +26,8 @@ export class MoviesListService {
 
   constructor(
     private readonly restController: RestControllerService,
-    private readonly persistanceService: PersistanceService
+    private readonly persistanceService: PersistanceService,
+    private readonly router: Router
   ) {
     const persistedWatchList = persistanceService.get<Array<number>>(this.WATCHLIST_KEY, []);
     this.filmWatchlistedEmitter.next(persistedWatchList);
@@ -50,5 +52,9 @@ export class MoviesListService {
 
   isFilmOnWatchlist(film: Film): Observable<boolean> {
     return this.filmWatchlistedEmitter.pipe(map((arr) => arr.includes(film.id), distinctUntilChanged()));
+  }
+
+  navigateToFilmDetailsPage(film: Film): void {
+    this.router.navigate(['/details'], { queryParams: { id: film.id } });
   }
 }

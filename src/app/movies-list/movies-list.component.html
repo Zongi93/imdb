@@ -1,12 +1,8 @@
 <div class="container">
-  <div class="title">
-    Welcome to
-    <div class="logo">IMDB</div>
-  </div>
   <div
     class="films-list"
     infiniteScroll
-    [infiniteScrollDistance]="1"
+    [infiniteScrollDistance]="1.5"
     [infiniteScrollThrottle]="250"
     (scrolled)="onScroll()"
     #filmsList

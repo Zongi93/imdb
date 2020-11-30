@@ -1,0 +1,59 @@
+<div class="container" *ngIf="movieDetails$ | async as movieDetails">
+  <div class="film-container">
+    <img [src]="getImageUrl(movieDetails.posterPath) | async" />
+    <div class="film-details">
+      <h4 class="title">Title</h4>
+      <div>{{ movieDetails.title }}</div>
+      <h4>Genres</h4>
+      <div>{{ movieDetails.genres.join(", ") }}</div>
+      <h4>Budget</h4>
+      <div>{{ movieDetails.budget === 0 ? "Unknown" : movieDetails.budget.toLocaleString() + " $" }}</div>
+      <h4>Release date</h4>
+      <div>{{ movieDetails.releaseDate.toLocaleDateString() }}</div>
+      <h4>Runtime</h4>
+      <div>{{ movieDetails.runtime }} minutes</div>
+      <h4>Vote average</h4>
+      <div>{{ movieDetails.voteAverage }} out of 10 ({{ movieDetails.voteCount }} votes casted)</div>
+      <div class="synopsys">
+        <h2>Synopsys</h2>
+        <div>{{ movieDetails.overview }}</div>
+      </div>
+      <div class="status"></div>
+    </div>
+  </div>
+  <h2>Cast:</h2>
+  <div class="actor-container">
+    <div *ngFor="let actor of movieDetails.actors" class="actor">
+      <img [src]="getImageUrl(actor.profilePath) | async" />
+      <div class="actor-details">
+        <div class="actor-name">{{ actor.name }}</div>
+        <div class="actor-as">as</div>
+        <div class="actor-character" [class.unkown]="!actor.character">
+          {{ !!actor.character ? actor.character : "Unknown" }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2>Reviews:</h2>
+  <div
+    class="reviews-container"
+    infiniteScroll
+    [infiniteScrollDistance]="1.5"
+    [infiniteScrollThrottle]="250"
+    (scrolled)="onScroll()"
+  >
+    <div *ngFor="let review of reviews$ | async" class="review">
+      <img [src]="getReviewerImageUrl(review.authorAvatarPath) | async" />
+      <div class="review-content">
+        <h3>
+          {{ review.author }} says:
+          <div class="review-date">
+            <span *ngIf="review.updatedAt > review.createdAt">(Edited)</span>
+            {{ review.createdAt.toLocaleString() }}
+          </div>
+        </h3>
+        {{ review.content }}
+      </div>
+    </div>
+  </div>
+</div>

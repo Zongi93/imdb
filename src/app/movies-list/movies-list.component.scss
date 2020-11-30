@@ -3,25 +3,6 @@
   height: 100%;
   width: 100%;
 
-  .title {
-    padding: 3rem 0 3rem;
-    font-size: 3rem;
-    color: white;
-
-    display: flex;
-    justify-content: center;
-
-    .logo {
-      background-color: #f5c518;
-      padding: 0 1rem;
-      margin-left: 1rem;
-      font-family: cursive;
-      font-weight: 900;
-      color: black;
-      border-radius: 5px;
-    }
-  }
-
   .films-list {
     position: relative;
     display: flex;
